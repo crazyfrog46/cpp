@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast Application</title>
+    {% load static %}  <!-- Load static files -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background: url('/static/images/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            max-width: 450px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: orange;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: darkorange;
+        }
+        .weather-info {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7); /* Change to a darker shade */
+            color: white; /* Change text color to white */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .weather-info img {
+            width: 100px; /* Adjust size as needed */
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Weather Forecast Application</h1>
+
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Enter City" value="{{ city }}">
+            <button type="submit">Get Weather Data</button>
+        </form>
+
+        {% if weather %}
+            <div class="weather-info">
+                <h2>Weather Forecast for {{ weather.city }}</h2>
+                <p>Temperature: {{ weather.temperature }}°C</p>
+                <p>Description: {{ weather.description }}</p>
+                <p>Humidity: {{ weather.humidity }}%</p>
+                <p>Wind Speed: {{ weather.wind_speed }} km/h</p>
+                <img src="http://openweathermap.org/img/wn/{{ weather.icon_code }}@2x.png" alt="Weather icon"> <!-- Display weather icon -->
+
+                <form action="{% url 'save_location' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="city_name" value="{{ city }}">
+                    <button type="submit">Save Location</button>
+                </form>
+            </div>
+        {% else %}
+            <p>Weather updates are just a city away! Enter a location above.</p>
+        {% endif %}
+    </div>
+
+    {% if has_saved_locations %}
+        <a href="{% url 'saved_locations' %}">
+            <button>View Saved Locations</button>
+        </a>
+    {% endif %}
+
+</body>
+</html>
