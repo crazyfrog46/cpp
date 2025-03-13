@@ -1,250 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Forecast Application</title>
-
-    <!-- Include Weather Icons CSS -->
-    <link rel="stylesheet" href="{% static 'weather/css/weather-icons.min.css' %}">
-    
+    {% load static %}  <!-- Load static files -->
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-image: url("{% static 'images/bg.jpg' %}");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            flex-direction: column;
+            font-family: Arial, sans-serif;
             text-align: center;
+            margin: 0;
             padding: 20px;
-            transition: background 0.5s ease;
+            background: url('/static/images/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
         }
-
-        h1 .styled-text {
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 2.5em;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-            font-family: 'Poppins', sans-serif;
+        .container {
+            max-width: 450px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
         }
-
-        form {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            max-width: 380px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        input[type="text"] {
+        input {
+            width: 80%;
             padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            border: 2px solid #ddd;
-            width: 100%;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
-
-        input[type="text"]:focus {
-            border-color: #ff9800;
-            outline: none;
-        }
-
         button {
-            padding: 10px 22px;
-            border-radius: 5px;
-            border: none;
-            background-color: #ff9800;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-            width: 100%;
-        }
-
-        button:hover {
-            background-color: #e68900;
-        }
-
-        .weather-info {
-            background-color: rgba(255, 255, 255, 0.7);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            margin-top: 25px;
-            width: 100%;
-            max-width: 460px;
-            margin-left: auto;
-            margin-right: auto;
-            transition: transform 0.3s ease;
-        }
-
-        .weather-info:hover {
-            transform: scale(1.02);
-        }
-
-        .weather-info h2 {
-            font-size: 2.2em;
-            color: #333;
-            margin-top: 0;
-        }
-
-        .weather-info p {
-            margin: 12px 0;
-            font-size: 16px;
-            color: #555;
-        }
-
-        .icon-container {
-            font-size: 80px;
             margin-top: 15px;
-            color: #ff9800;
-        }
-
-        .saved-locations {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 460px;
-            width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .saved-locations h3 {
-            font-size: 1.6em;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .saved-locations ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .saved-locations li {
-            font-size: 16px;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .saved-locations button {
-            background-color: #e63946;
-            padding: 5px 10px;
-            font-size: 14px;
-            color: white;
-            border-radius: 5px;
+            padding: 12px 20px;
+            background: orange;
             border: none;
+            color: white;
             cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
         }
-
-        .saved-locations button:hover {
-            background-color: #d62828;
+        button:hover {
+            background: darkorange;
         }
-
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            input[type="text"], button {
-                width: 100%;
-                margin-top: 10px;
-            }
-
-            .weather-info, .saved-locations {
-                width: 90%;
-                padding: 15px;
-            }
+        .weather-info {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7); /* Change to a darker shade */
+            color: white; /* Change text color to white */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .weather-info img {
+            width: 100px; /* Adjust size as needed */
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
-    <div>
-        <h2><span class="styled-text">Weather Forecast Application</span></h2>
-        
-        <form method="post" id="weatherForm">
+
+    <h1>Weather Forecast Application</h1>
+
+    <div class="container">
+        <form method="post">
             {% csrf_token %}
-            <input type="text" name="city" id="cityInput" placeholder="Enter City" value="{{ city }}">
+            <input type="text" name="city" placeholder="Enter City" value="{{ city }}">
             <button type="submit">Get Weather Data</button>
         </form>
 
         {% if weather %}
-            <div class="weather-info" style="background: {{ weather.bg_color }};">
+            <div class="weather-info">
                 <h2>Weather Forecast for {{ weather.city }}</h2>
-                <div class="card">
-                    <p><span>Temperature:</span> {{ weather.temperature }}°C</p>
-                    <p><span>Description:</span> {{ weather.description }}</p>
-                    <p><span>Humidity:</span> {{ weather.humidity }}%</p>
-                    <p><span>Wind Speed:</span> {{ weather.wind_speed }} km/h</p>
-                </div>
-                <div class="icon-container">
-                    <i class="wi wi-{{ weather.icon_code }}"></i>
-                </div>
+                <p>Temperature: {{ weather.temperature }}°C</p>
+                <p>Description: {{ weather.description }}</p>
+                <p>Humidity: {{ weather.humidity }}%</p>
+                <p>Wind Speed: {{ weather.wind_speed }} km/h</p>
+                <img src="http://openweathermap.org/img/wn/{{ weather.icon_code }}@2x.png" alt="Weather icon"> <!-- Display weather icon -->
+
+                <form action="{% url 'save_location' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="city_name" value="{{ city }}">
+                    <button type="submit">Save Location</button>
+                </form>
             </div>
         {% else %}
-            <p style="color: white;">Weather updates are just a city away! Enter a location above.</p>
+            <p>Weather updates are just a city away! Enter a location above.</p>
         {% endif %}
     </div>
 
-    <!-- Save Location Button -->
-    {% if city %}
-        <div style="max-width: 460px; margin: 30px auto;">
-            <form action="{% url 'save_location' %}" method="post" style="text-align: center;">
-                {% csrf_token %}
-                <input type="hidden" name="city_name" value="{{ city }}">
-                <button type="submit">Save Location</button>
-            </form>
-        </div>
+    {% if has_saved_locations %}
+        <a href="{% url 'saved_locations' %}">
+            <button>View Saved Locations</button>
+        </a>
     {% endif %}
 
-    <!-- View Saved Locations -->
-    {% if saved_locations %}
-        <div class="saved-locations">
-            <h3>Saved Locations</h3>
-            <ul>
-                {% for location in saved_locations %}
-                    <li>
-                        {{ location.city_name }}
-                        <form action="{% url 'delete_location' location.id %}" method="post" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit">❌ Remove</button>
-                        </form>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% else %}
-        <p>No saved locations to show yet.</p>
-    {% endif %}
-
-    <!-- JavaScript for Auto-Refresh -->
-    <script>
-        // Function to reload the weather data periodically
-        function refreshWeather() {
-            // Reload the page every 5 minutes (300000 milliseconds)
-            setTimeout(function() {
-                location.reload();
-            }, 300000); // 5 minutes
-        }
-
-        // Trigger the refresh function when the page loads
-        window.onload = refreshWeather;
-    </script>
 </body>
 </html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Locations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background: url('/static/images/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            max-width: 450px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .edit-btn {
+            background: orange;
+        }
+        .edit-btn:hover {
+            background: darkorange;
+        }
+        .remove-btn {
+            background: red;
+        }
+        .remove-btn:hover {
+            background: darkred;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Adjust the gap between buttons as needed */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Saved Locations</h1>
+
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>City Name</th>
+                    <th>Current Weather</th> <!-- New column header -->
+                    <th>Temperature</th> <!-- New column header -->
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for location in locations %}
+                    <tr>
+                        <td>{{ location.city_name }}</td>
+                        <td>{{ location.current_weather }}</td> <!-- New column data -->
+                        <td>{{ location.current_temperature }} °C</td> <!-- New column data -->
+                        <td class="action-buttons">
+                            <a href="{% url 'edit_location' location.id %}">
+                                <button class="edit-btn">Edit</button>
+                            </a>
+                            <a href="{% url 'delete_location' location.id %}">
+                                <button class="remove-btn">Remove</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{% url 'home' %}">
+        <button class="edit-btn">Back to Home</button>
+    </a>
+
+</body>
+</html>

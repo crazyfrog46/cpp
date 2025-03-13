@@ -1,18 +1,16 @@
-
-
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8gp22gad7ruhqasneyh%)gxhndcyy7eyd9_mj)zh^757xbvru&'
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: don't run with debug turned on in production!
+SECRET_KEY = 'your-secret-key-here'
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -23,7 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     'weather',
+    'weather',  # Your app for weather functionality
 ]
 
 MIDDLEWARE = [
@@ -41,7 +39,10 @@ ROOT_URLCONF = 'irenev2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'templates',  # Default templates directory (if you have any global templates)
+            BASE_DIR / 'weather/templates/weather',  # Custom templates directory for your app
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -56,14 +57,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'irenev2.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',  # Use 'django.db.backends.postgresql' for PostgreSQL
+        'NAME': 'weather_app_2_db',
+        'USER': 'admin',
+        'PASSWORD': 'interestellar16042003',
+        'HOST': 'weather-app-db.cygwdaudljzz.us-east-1.rds.amazonaws.com',  # e.g., your-db-instance-identifier.c9akciq32.rds.amazonaws.com
+        'PORT': '3306',  # Default port for MySQL. Use '5432' for PostgreSQL.
     }
 }
 
@@ -86,7 +97,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -98,15 +108,26 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+# Default primary key field type
+# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Login settings
+LOGIN_URL = 'login'  # Correct the login URL to match your login view
+LOGIN_REDIRECT_URL = 'home'  # Redirect to home after successful login
+
+# Authentication backends
+# You can specify authentication backends here if needed (e.g., for social logins)
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Default backend
+]
 
 OPENWEATHER_API_KEY = '250fb7463d8b9bc08e2de55c8deee5a7'
 WEATHERAPI_API_KEY = 'dac3f9acbfed4d07897194006251202'
 TOMORROWIO_API_KEY = 'l52Mt3g35rr4Gv6CPbkL6w8ertFZsNO9'
-

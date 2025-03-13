@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Location</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background: url('/static/images/bg.jpg') no-repeat center center fixed;
+            background-size: cover; /* Ensures the background image covers the entire screen */
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            background: orange;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: darkorange;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Edit Location</h1>
+
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="city_name" placeholder="Enter new city name" value="{{ location.city_name }}">
+            <button type="submit">Update Location</button>
+        </form>
+    </div>
+
+    <a href="{% url 'saved_locations' %}">
+        <button>Back to Saved Locations</button>
+    </a>
+
+</body>
+</html>
